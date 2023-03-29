@@ -1,5 +1,11 @@
 #!/bin/sh
-echo "Installing metallb using helm."
+echo "Adding metallb repo to helm."
+helm repo add metallb https://metallb.github.io/metallb
+
+echo "\nUpdating metallb helm repo."
+helm repo update metallb
+
+echo "\nInstalling metallb using helm."
 helm install metallb metallb/metallb --namespace metallb-system --create-namespace
 
 echo "\nWait for metallb controller deployment to be ready."
