@@ -1,0 +1,21 @@
+#
+# The Keycloak operator creates an initial admin user and password when it first deploys the environment. The username and password are stored in a kubernetes secret.
+# When the pod restarts, a new secret is created, but the since the admin user already exists, that username and password is not changed in the DB.
+# Hence you can end up in a situation where you don't have the actual admin password.
+#
+# One way to resolve this is to dive into the PostgreSQL DB pod, and delete the admin user, it's credentials and rolemappings. After this, recycle the Keycloak pod.
+#
+
+# Login to the database pod
+kubectl exec -it postgresql-db-0 -- bash
+
+# Login to the DB using pgsql
+psql keycloak -U postgres
+
+# Find the admin entity
+select * from user_entity
+
+# Delete credentials, user_role_mapping and user_entity for the admin user.
+delete from credential where user_id = '<user-id>';
+delete from user_role_mapping where user_id = '<user-id>';
+delete from user_entity where id = '<user-id>';

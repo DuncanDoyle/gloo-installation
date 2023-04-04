@@ -1,0 +1,23 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: keycloak-vs
+  namespace: gloo-system
+spec:
+  # ---------------- SSL config ---------------------------
+  sslConfig:
+    secretRef:
+      name: keycloak-tls-secret
+      namespace: gloo-system
+  # -------------------------------------------------------    
+  virtualHost:
+    domains:
+      - 'keycloak.example.com'
+    routes:
+      - matchers:
+          - prefix: /
+        routeAction:
+          single:
+            upstream:
+              name: keycloak-keycloak-service-8080
+              namespace: gloo-system

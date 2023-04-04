@@ -1,0 +1,33 @@
+apiVersion: networking.gloo.solo.io/v2
+kind: RouteTable
+metadata:
+  name: keycloak-rt
+  namespace: gloo-mesh-gateways
+spec:
+  hosts:
+  - keycloak.example.com
+  virtualGateways:
+  - name: keycloak-istio-ingressgateway
+    namespace: gloo-mesh-gateways
+  # defaultDestination:
+  #   ref:
+  #     name: demo-keycloak-service
+  #     namespace: keycloak
+  #   port:
+  #     number: 8443
+  http:
+  # tcp:
+  - name: keycloak
+    labels:
+      route: keycloak
+    matchers:
+    - uri:
+        prefix: /
+    forwardTo:
+      destinations:
+      - ref:
+          name: keycloak-service
+          namespace: keycloak
+        port:
+          # number: 8443
+          number: 8080
