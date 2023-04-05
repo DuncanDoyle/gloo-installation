@@ -8,6 +8,6 @@ echo "\nInstall Keycloak certificates as secret in Kubernetes."
 kubectl -n keycloak create secret tls keycloak-tls-secret --cert certificate.pem --key key.pem
 kubectl -n gloo-system create secret tls keycloak-tls-secret --cert certificate.pem --key key.pem
 
-rm certicate.pem key.pem
+rm certificate.pem key.pem
 
 

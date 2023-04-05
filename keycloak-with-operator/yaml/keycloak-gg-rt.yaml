@@ -26,7 +26,7 @@ spec:
     forwardTo:
       destinations:
       - ref:
-          name: keycloak
+          name: keycloak-service
           namespace: keycloak
         port:
           # number: 8443
