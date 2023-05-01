@@ -17,7 +17,7 @@ then
       echo "The 'GLOO_VERSION' environment variable is empty. This environment variable is required to run the installation."
       exit 1
 else
-   echo "Installing Gloo version: $GLOO_VESRION"
+   echo "Installing Gloo version: $GLOO_VERSION"
 fi
 
 if [ -z "$CLUSTER_NAME" ]

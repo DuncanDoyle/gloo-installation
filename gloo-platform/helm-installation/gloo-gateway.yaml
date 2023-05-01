@@ -31,5 +31,19 @@ rateLimiter:
   enabled: true
 extAuthService:
   enabled: true
+  extAuth: 
+    apiKeyStorage: 
+      name: redis
+      config: 
+        connection: 
+          host: redis.gloo-mesh-addons:6379
+          db: 0
+      secretKey: ThisIsSecret
 glooPortalServer:
   enabled: true
+  apiKeyStorage:
+    type: redis
+    config:
+      host: redis.gloo-mesh-addons:6379
+    configPath: /etc/redis/config.yaml
+    secretKey: ThisIsSecret
