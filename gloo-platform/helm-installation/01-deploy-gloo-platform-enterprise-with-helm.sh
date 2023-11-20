@@ -4,6 +4,12 @@
 
 # TODO Check that ENV VARs have been set
 
+if [ -z "$1" ]
+then
+   echo "Please pass your Gloo Gateway Helm values file as the argument to this installation script."
+   exit 1
+fi
+
 if [ -z "$GLOO_GATEWAY_LICENSE_KEY" ]
 then
       echo "The 'GLOO_GATEWAY_LICENSE_KEY' environment variable is empty. This environment variable is required to run the installation."
@@ -54,7 +60,7 @@ helm upgrade --install gloo-platform-crds gloo-platform/gloo-platform-crds \
 
 ##### Install Gloo Platform #####
 
-echo "Create gloo-mesh-addons namespace if it does not yet exist."
+echo "\nCreate gloo-mesh-addons namespace if it does not yet exist."
 kubectl create namespace gloo-mesh-addons --dry-run=client -o yaml | kubectl apply -f -
 
 echo "\nInstalling Gloo Platform"
@@ -62,6 +68,6 @@ echo "\nInstalling Gloo Platform"
 helm upgrade --install gloo-platform gloo-platform/gloo-platform \
    --namespace gloo-mesh \
    --version $GLOO_VERSION \
-   --values gloo-gateway.yaml \
+   --values $1 \
    --set common.cluster=$CLUSTER_NAME \
    --set licensing.glooGatewayLicenseKey=$GLOO_GATEWAY_LICENSE_KEY

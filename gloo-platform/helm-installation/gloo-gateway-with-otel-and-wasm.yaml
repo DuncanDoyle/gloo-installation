@@ -1,5 +1,7 @@
 common:
   cluster: cluster-1
+# demo:
+#   manageAddonNamespace: true
 glooAgent:
   enabled: true
   relay:
@@ -12,7 +14,41 @@ glooMgmtServer:
 glooUi:
   enabled: true
 istioInstallations:
-  enabled: true
+    enabled: true
+    northSouthGateways:
+      - enabled: true
+        installations:
+          - gatewayRevision: auto
+            istioOperatorSpec:
+              components:
+                ingressGateways:
+                  - name: istio-ingressgateway
+                    namespace: gloo-mesh-gateways
+                    enabled: true
+                    label:
+                      istio: ingressgateway
+                    k8s:
+                      overlays:
+                      - kind: Deployment
+                        name: istio-ingressgateway-1-17-2
+                        patches:
+                        - path: spec.template.spec.volumes.[-1]
+                          value:
+                            configMap:
+                              name: gloo-mesh-custom-envoy-bootstrap
+                              defaultMode: 420
+                              optional: false
+                            name: custom-bootstrap-volume
+                        - path: spec.template.spec.containers.[name:istio-proxy].volumeMounts.[-1]
+                          value:
+                            mountPath: /etc/istio/custom-bootstrap
+                            name: custom-bootstrap-volume
+                            readOnly: true
+                        - path: spec.template.spec.containers.[name:istio-proxy].env.[-1]
+                          value:
+                            name: ISTIO_BOOTSTRAP_OVERRIDE
+                            value: /etc/istio/custom-bootstrap/custom_bootstrap.json
+        name: istio-ingressgateway
 telemetryCollector:
   enabled: true
   resources:
