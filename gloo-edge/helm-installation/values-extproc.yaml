@@ -1,6 +1,6 @@
-gloo:
-  gatewayProxies:
-    gatewayProxy:
+#gloo:
+#  gatewayProxies:
+#    gatewayProxy:
       # extraVolumes:
       # - name: gloo-logs
       #   persistentVolumeClaim:
