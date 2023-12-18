@@ -1,0 +1,30 @@
+gloo:
+  gatewayProxies:
+    gatewayProxy:
+      # extraVolumes:
+      # - name: gloo-logs
+      #   persistentVolumeClaim:
+      #     claimName: local-claim
+      # extraProxyVolumeMounts:
+      # - name: gloo-logs
+      #   mountPath: /var/log/gloo
+      # extraEnvoyArgs: # Add extra arguments to Envoy.
+      # -  --log-path /dev/stdout
+      # -  --log-path /var/log/gloo/envoy_log
+global:
+  extensions:
+    extProc:
+      grpcService:
+        extProcServerRef:
+          name: default-ext-proc-grpc-4444
+          namespace: gloo-system
+      filterStage:
+        stage: AuthZStage
+        predicate: After
+      processingMode:
+        requestHeaderMode: SEND
+        responseHeaderMode: SEND
+        requestBodyMode: BUFFERED
+        responseBodyMode: BUFFERED
+        requestTrailerMode: SEND
+        responseTrailerMode: SEND

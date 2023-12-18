@@ -1,0 +1,83 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: httpbin-read-only
+  namespace: httpbin
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - secrets
+  - services
+  - pods
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - gloo.solo.io
+  resources:
+  - upstreams
+  - upstreamgroups
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - enterprise.gloo.solo.io
+  resources:
+  - authconfigs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - graphql.gloo.solo.io
+  resources:
+  - graphqlapis
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ratelimit.solo.io
+  resources:
+  - ratelimitconfigs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - gateway.solo.io
+  resources:
+  - virtualservices
+  - routetables
+  - gateways
+  - httpgateways
+  - tcpgateways
+  - virtualhostoptions
+  - routeoptions
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: httpbin-read-only
+  namespace: httpbin
+subjects:
+# You can specify more than one "subject"
+- kind: ServiceAccount
+  name: gloo # "name" is case sensitive
+  namespace: gloo-system
+- kind: ServiceAccount
+  name: observability
+  namespace: gloo-system
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: httpbin-read-only # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io

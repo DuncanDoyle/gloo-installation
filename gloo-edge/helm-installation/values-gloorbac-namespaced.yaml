@@ -1,0 +1,53 @@
+gloo:
+  settings:
+    # configure gloo to write generated custom resources to a custom namespace
+    create: true
+    # singleNamespace: true
+    writeNamespace: gloo-system
+    watchNamespaces:
+    - gloo-system
+    # - default
+    - httpbin
+  gatewayProxies:
+    gatewayProxy:
+      # extraVolumes:
+      # - name: gloo-logs
+      #   persistentVolumeClaim:
+      #     claimName: local-claim
+      # extraProxyVolumeMounts:
+      # - name: gloo-logs
+      #   mountPath: /var/log/gloo
+      # extraEnvoyArgs: # Add extra arguments to Envoy.
+      # -  --log-path /dev/stdout
+      # -  --log-path /var/log/gloo/envoy_log
+gloo-fed:
+  glooFedApiserver:
+    namespaceRestrictedMode: true
+grafana: # The grafana settings can be removed for Gloo Edge OSS
+  rbac:
+    namespaced: true
+global:
+  glooRbac:
+    # Create namespace scope roles
+    namespaced: true
+  extensions:
+    extAuth:
+      enabled: true
+      # deployment:
+      #     floatingUserId: true
+    rateLimit:
+      enabled: true
+      # deployment:
+      #     floatingUserId: true
+
+# ddoyle: Putting these namespace-scoped configurations in this section of the chart doesn't seem to work at all ....
+
+# settings:
+#   # configure gloo to write generated custom resources to a custom namespace
+#   create: true
+#   # singleNamespace: true
+#   writeNamespace: gloo-system
+#   watchNamespaces:
+#   - gloo-system
+#   # - default
+#   - httpbin
