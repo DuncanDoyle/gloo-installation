@@ -86,7 +86,7 @@ extAuthService:
       name: redis
       enabled: true
       config:
-        host: "redis.gloo-mesh-addons:6379"
+        host: "redis.gloo-mesh:6379"
         # Set to 0 to match the default database for the 'glooPortalServer.apiKeyStorage' configuration
         db: 0
       # Replace with a random string to use to generate hash values for other keys
@@ -97,7 +97,7 @@ glooPortalServer:
     # Use the local gloo-mesh-addons Redis for backing storage
     redis:
       enabled: true
-      address: redis.gloo-mesh-addons:6379
+      address: redis.gloo-mesh:6379
     # Path for API key storage config file in the gloo-mesh-addons backing Redis
     configPath: /etc/redis-client-config/config.yaml
     # Replace with a random string to use to generate hash values for other keys
