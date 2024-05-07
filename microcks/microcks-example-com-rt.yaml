@@ -1,0 +1,25 @@
+apiVersion: networking.gloo.solo.io/v2
+kind: RouteTable
+metadata:
+  name: microcks-rt
+  namespace: gloo-mesh-gateways
+spec:
+  hosts:
+  #- keycloak.keycloak.svc.cluster.local
+  - microcks.example.com
+  virtualGateways:
+  - name: istio-ingressgateway
+    namespace: gloo-mesh-gateways
+  http:
+  - name: "microcks"
+    matchers:
+    - uri:
+        prefix: /
+    forwardTo:
+      destinations:
+        - ref:
+            name: microcks
+            namespace: microcks
+            cluster: gg-demo-single
+          port:
+            number: 8080

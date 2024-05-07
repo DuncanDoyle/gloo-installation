@@ -1,0 +1,29 @@
+apiVersion: security.policy.gloo.solo.io/v2
+kind: CORSPolicy
+metadata:
+  name: microcks-cors
+  namespace: gloo-mesh-gateways
+spec:
+  applyToRoutes:
+  - route:
+      labels:
+        cors-policy: microcks
+  config:
+    allowCredentials: true
+    allowHeaders:
+    - Authorization
+    - Content-Type
+    - api-key
+    - api_key
+    allowMethods:
+    - OPTIONS
+    - GET
+    - POST
+    - PUT
+    - PATCH
+    - DELETE
+    allowOrigins:
+    - exact: http://mc-keycloak.example.com
+    - exact: https://mc-keycloak.example.com
+    - exact: http://microcks.example.com
+    - exact: https://microcks.example.com

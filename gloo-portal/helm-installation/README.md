@@ -1,0 +1,1 @@
+Requires installation of Gloo Edge (Enterprise)

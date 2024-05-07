@@ -1,0 +1,19 @@
+gloo:
+  gatewayProxies:
+    gatewayProxy:
+      gatewaySettings:
+        accessLoggingService:
+          accessLog:
+          - fileSink:
+              path: /dev/stdout
+              stringFormat: ""
+      # extraVolumes:
+      # - name: gloo-logs
+      #   persistentVolumeClaim:
+      #     claimName: local-claim
+      # extraProxyVolumeMounts:
+      # - name: gloo-logs
+      #   mountPath: /var/log/gloo
+      # extraEnvoyArgs: # Add extra arguments to Envoy.
+      # -  --log-path /dev/stdout
+      # -  --log-path /var/log/gloo/envoy_log
