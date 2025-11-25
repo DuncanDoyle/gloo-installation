@@ -8,6 +8,18 @@ fi
 
 MINIKUBE_PROFILE=$1
 
+
+####################### Check that the minikube profile is running.
+
+MINIKUBE_STATUS=$(minikube -p $1 status)
+MINIKUBE_PROFILE_RUNNING=false
+echo "$MINIKUBE_STATUS" | grep -q "^apiserver: Running" && MINIKUBE_PROFILE_RUNNING=true || MINIKUBE_PROFILE_RUNNING=false
+
+if ! echo "$MINIKUBE_STATUS" | grep -q "^apiserver: Running"; then
+  echo "Minikube profile is not running. Make sure the provided Minikube profile is up and running before running this installation."
+  exit 1
+fi
+
 ####################### First make sure we can determine the address-pool we want to use for metallb. #######################
 
 # Get the ip address of the primary control plane node
