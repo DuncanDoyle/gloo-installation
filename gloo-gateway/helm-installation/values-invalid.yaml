@@ -1,0 +1,12 @@
+gloo:
+  gatewayProxies:
+    gatewayProxy:
+      disabled: true
+    otherProxy:
+      disabled: false
+      kubeResourceOverride:
+        spec:
+          template:
+            metadata:
+              labels:
+                foo: bar
